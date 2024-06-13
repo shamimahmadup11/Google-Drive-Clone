@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Hero() {
   const [modalOpen, setModalOpen] = useState(false);
   const [user, setUser] = useState(null);
-
+console.log(user)
   const navigate = useNavigate();
 
   const openModal = () => setModalOpen(true);

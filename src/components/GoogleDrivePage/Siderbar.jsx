@@ -70,14 +70,16 @@ function Siderbar() {
 
   const handleUpload = async (e) => {
     e.preventDefault();
+    console.log("Attempting to upload file:", file.name);
     setUploading(true);
-
+  
     if (file) {
       const storageRef = ref(storage, `files/${file.name}`);
       try {
         const snapshot = await uploadBytes(storageRef, file);
         const url = await getDownloadURL(snapshot.ref);
-
+  
+        // Add document to Firestore
         await addDoc(collection(db, "myFiles"), {
           timestamp: serverTimestamp(),
           fileName: file.name,
@@ -86,10 +88,11 @@ function Siderbar() {
           fileType: snapshot.metadata.contentType,
           userId: currentUser.uid,
         });
-
+  
         setUploading(false);
         setFile(null);
         setModal(false);
+        console.log("Upload successful!");
       } catch (error) {
         console.error("Error uploading file: ", error);
         setUploading(false);
@@ -187,3 +190,7 @@ function Siderbar() {
 }
 
 export default Siderbar;
+
+
+
+
